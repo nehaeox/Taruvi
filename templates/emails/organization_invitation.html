@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Invitation - {{ organization.name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .invitation-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            margin: 20px 0;
+        }
+        .organization-name {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .cta-button:hover {
+            background: #0056b3;
+            color: white;
+        }
+        .details {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .token-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Taruvi</div>
+            <h2>Organization Invitation</h2>
+        </div>
+
+        <div class="invitation-box">
+            <h3>You're invited to join <span class="organization-name">{{ organization.name }}</span></h3>
+            <p>{{ invited_by.get_full_name|default:invited_by.username }} has invited you to join their organization on Taruvi.</p>
+        </div>
+
+        <div class="details">
+            <h4>Organization Details:</h4>
+            <ul>
+                <li><strong>Name:</strong> {{ organization.name }}</li>
+                <li><strong>Plan:</strong> {{ organization.get_subscription_plan_display }}</li>
+                <li><strong>Role:</strong> {{ invitation.role|capfirst }}</li>
+                <li><strong>Invited by:</strong> {{ invited_by.get_full_name|default:invited_by.username }}</li>
+                <li><strong>Invitation expires:</strong> {{ invitation.expires_at|date:"F j, Y g:i A" }}</li>
+            </ul>
+        </div>
+
+        {% if message %}
+        <div class="invitation-box">
+            <h4>Personal Message:</h4>
+            <p><em>"{{ message }}"</em></p>
+        </div>
+        {% endif %}
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ accept_url }}" class="cta-button">Accept Invitation</a>
+        </div>
+
+        <div class="token-info">
+            <h4>Alternative Access:</h4>
+            <p>If the button above doesn't work, you can copy and paste this invitation token:</p>
+            <p style="font-family: monospace; background: white; padding: 10px; border-radius: 3px; font-weight: bold;">
+                {{ invitation.token }}
+            </p>
+            <p><small>Use this token in the "Accept Invitation" section of your account dashboard.</small></p>
+        </div>
+
+        <div class="footer">
+            <p>This invitation will expire on {{ invitation.expires_at|date:"F j, Y" }}.</p>
+            <p>If you didn't expect this invitation, you can safely ignore this email.</p>
+            <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+            <p><strong>Taruvi</strong> - Enterprise Django SaaS Platform</p>
+            <p style="color: #999;">This is an automated message, please do not reply to this email.</p>
+        </div>
+    </div>
+</body>
+</html>

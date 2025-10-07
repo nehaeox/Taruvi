@@ -1,0 +1,104 @@
+groups:
+  - name: django_alerts
+    rules:
+      # High Error Rate
+      - alert: HighErrorRate
+        expr: rate(django_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate in Django application"
+          description: "Error rate is {{ $value }} errors per second"
+
+      # High Response Time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, django_request_duration_seconds_bucket) > 2.0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time in Django application"
+          description: "95th percentile response time is {{ $value }} seconds"
+
+      # Database Connection Issues
+      - alert: DatabaseConnectionFailed
+        expr: up{job="postgres"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database connection failed"
+          description: "PostgreSQL database is down"
+
+      # Redis Connection Issues
+      - alert: RedisConnectionFailed
+        expr: up{job="redis"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis connection failed"
+          description: "Redis server is down"
+
+      # Celery Workers Down
+      - alert: CeleryWorkersDown
+        expr: celery_workers_count < 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "No Celery workers available"
+          description: "All Celery workers are down"
+
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is above 90%"
+
+      # High CPU Usage
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is above 80%"
+
+      # Disk Space Low
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_free_bytes / node_filesystem_size_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk space low"
+          description: "Disk space is below 10% on {{ $labels.mountpoint }}"
+
+  - name: application_health
+    rules:
+      # Application Down
+      - alert: ApplicationDown
+        expr: up{job="django"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Django application is down"
+          description: "Django application has been down for more than 1 minute"
+
+      # High Request Rate
+      - alert: HighRequestRate
+        expr: rate(django_requests_total[1m]) > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High request rate"
+          description: "Request rate is {{ $value }} requests per second"

@@ -1,0 +1,2182 @@
+openapi: 3.0.3
+info:
+  title: Taruvi API
+  version: 1.0.0
+  description: Enterprise Django SaaS Platform API
+paths:
+  /api/organizations/:
+    post:
+      operationId: organizations_create
+      description: ViewSet for Organization management with Guardian permissions
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    get:
+      operationId: organizations_list
+      description: ViewSet for Organization management with Guardian permissions
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizationList'
+          description: ''
+  /api/organizations/{slug}/:
+    patch:
+      operationId: organizations_partial_update
+      description: ViewSet for Organization management with Guardian permissions
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    put:
+      operationId: organizations_update
+      description: ViewSet for Organization management with Guardian permissions
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    delete:
+      operationId: organizations_destroy
+      description: ViewSet for Organization management with Guardian permissions
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+    get:
+      operationId: organizations_retrieve
+      description: ViewSet for Organization management with Guardian permissions
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/add_member/:
+    post:
+      operationId: organizations_add_member_create
+      description: Add member to organization
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/add_site/:
+    post:
+      operationId: organizations_add_site_create
+      description: Add site to organization
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/grant_site_access/:
+    post:
+      operationId: organizations_grant_site_access_create
+      description: Grant site access to organization member
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/members/:
+    get:
+      operationId: organizations_members_retrieve
+      description: Get organization members
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/remove_member/:
+    post:
+      operationId: organizations_remove_member_create
+      description: Remove member from organization
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/revoke_site_access/:
+    post:
+      operationId: organizations_revoke_site_access_create
+      description: Revoke site access from organization member
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{slug}/sites/:
+    get:
+      operationId: organizations_sites_retrieve
+      description: Get organization sites
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          description: URL-friendly organization identifier
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organization-members/:
+    post:
+      operationId: organization_members_create
+      description: ViewSet for Organization Member management
+      tags:
+      - organization-members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMember'
+          description: ''
+    get:
+      operationId: organization_members_list
+      description: ViewSet for Organization Member management
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - organization-members
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizationMemberList'
+          description: ''
+  /api/organization-members/{id}/:
+    patch:
+      operationId: organization_members_partial_update
+      description: ViewSet for Organization Member management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Member.
+        required: true
+      tags:
+      - organization-members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationMemberRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationMemberRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationMemberRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMember'
+          description: ''
+    put:
+      operationId: organization_members_update
+      description: ViewSet for Organization Member management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Member.
+        required: true
+      tags:
+      - organization-members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMember'
+          description: ''
+    delete:
+      operationId: organization_members_destroy
+      description: ViewSet for Organization Member management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Member.
+        required: true
+      tags:
+      - organization-members
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+    get:
+      operationId: organization_members_retrieve
+      description: ViewSet for Organization Member management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Member.
+        required: true
+      tags:
+      - organization-members
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMember'
+          description: ''
+  /api/organization-members/{id}/change_role/:
+    post:
+      operationId: organization_members_change_role_create
+      description: Change member role
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Member.
+        required: true
+      tags:
+      - organization-members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationMemberRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationMember'
+          description: ''
+  /api/organization-sites/:
+    post:
+      operationId: organization_sites_create
+      description: ViewSet for Organization Site management
+      tags:
+      - organization-sites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSite'
+          description: ''
+    get:
+      operationId: organization_sites_list
+      description: ViewSet for Organization Site management
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - organization-sites
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizationSiteList'
+          description: ''
+  /api/organization-sites/{id}/:
+    patch:
+      operationId: organization_sites_partial_update
+      description: ViewSet for Organization Site management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Site.
+        required: true
+      tags:
+      - organization-sites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationSiteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationSiteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationSiteRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSite'
+          description: ''
+    put:
+      operationId: organization_sites_update
+      description: ViewSet for Organization Site management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Site.
+        required: true
+      tags:
+      - organization-sites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationSiteRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSite'
+          description: ''
+    delete:
+      operationId: organization_sites_destroy
+      description: ViewSet for Organization Site management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Site.
+        required: true
+      tags:
+      - organization-sites
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+    get:
+      operationId: organization_sites_retrieve
+      description: ViewSet for Organization Site management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Site.
+        required: true
+      tags:
+      - organization-sites
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSite'
+          description: ''
+  /api/organization-sites/{id}/permissions/:
+    get:
+      operationId: organization_sites_permissions_retrieve
+      description: Get site permissions for organization members
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Site.
+        required: true
+      tags:
+      - organization-sites
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSite'
+          description: ''
+  /api/organization-invitations/:
+    post:
+      operationId: organization_invitations_create
+      description: ViewSet for Organization Invitation management
+      tags:
+      - organization-invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+    get:
+      operationId: organization_invitations_list
+      description: ViewSet for Organization Invitation management
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - organization-invitations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizationInvitationList'
+          description: ''
+  /api/organization-invitations/accept_invitation/:
+    post:
+      operationId: organization_invitations_accept_invitation_create
+      description: Accept organization invitation
+      tags:
+      - organization-invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+  /api/organization-invitations/{id}/:
+    patch:
+      operationId: organization_invitations_partial_update
+      description: ViewSet for Organization Invitation management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Invitation.
+        required: true
+      tags:
+      - organization-invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationInvitationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationInvitationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizationInvitationRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+    put:
+      operationId: organization_invitations_update
+      description: ViewSet for Organization Invitation management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Invitation.
+        required: true
+      tags:
+      - organization-invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+    delete:
+      operationId: organization_invitations_destroy
+      description: ViewSet for Organization Invitation management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Invitation.
+        required: true
+      tags:
+      - organization-invitations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+    get:
+      operationId: organization_invitations_retrieve
+      description: ViewSet for Organization Invitation management
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Invitation.
+        required: true
+      tags:
+      - organization-invitations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+  /api/organization-invitations/{id}/resend/:
+    post:
+      operationId: organization_invitations_resend_create
+      description: Resend invitation email
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Organization Invitation.
+        required: true
+      tags:
+      - organization-invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizationInvitationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInvitation'
+          description: ''
+  /api/site-permissions/:
+    get:
+      operationId: site_permissions_retrieve
+      description: List user's site permissions
+      tags:
+      - site-permissions
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/site-permissions/check_permission/:
+    post:
+      operationId: site_permissions_check_permission_create
+      description: Check if user has specific permission on site
+      tags:
+      - site-permissions
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/tasks/test/:
+    post:
+      operationId: tasks_test_create
+      description: Test endpoint to trigger Celery tasks
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/tasks/status/{task_id}/:
+    get:
+      operationId: tasks_status_retrieve
+      description: Get status of a Celery task
+      parameters:
+      - in: path
+        name: task_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/auth/jwt/token/:
+    post:
+      operationId: auth_jwt_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/auth/jwt/token/refresh/:
+    post:
+      operationId: auth_jwt_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/auth/jwt/token/verify/:
+    post:
+      operationId: auth_jwt_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+        required: true
+      responses:
+        '200':
+          description: No response body
+  /api/auth/jwt/token/blacklist/:
+    post:
+      operationId: auth_jwt_token_blacklist_create
+      description: |-
+        Takes a token and blacklists it. Must be used with the
+        `rest_framework_simplejwt.token_blacklist` app installed.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklistRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklistRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklistRequest'
+        required: true
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Organization:
+      type: object
+      description: Organization serializer with computed fields
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: Organization name
+          maxLength: 200
+        slug:
+          type: string
+          readOnly: true
+          description: URL-friendly organization identifier
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          nullable: true
+          description: Organization description
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Organization contact email
+          maxLength: 254
+        website:
+          type: string
+          format: uri
+          nullable: true
+          description: Organization website
+          maxLength: 200
+        phone:
+          type: string
+          nullable: true
+          description: Organization phone
+          maxLength: 20
+        address:
+          type: string
+          nullable: true
+          description: Organization address
+        subscription_plan:
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionPlanEnum'
+          description: |-
+            Current subscription plan
+
+            * `free` - Free
+            * `basic` - Basic
+            * `professional` - Professional
+            * `enterprise` - Enterprise
+        max_sites:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum sites allowed
+        max_members:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum members allowed
+        is_active:
+          type: boolean
+          description: Organization is active
+        is_verified:
+          type: boolean
+          description: Organization is verified
+        verified_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        settings:
+          description: Organization settings
+        member_count:
+          type: string
+          readOnly: true
+        owner_count:
+          type: string
+          readOnly: true
+        site_count:
+          type: string
+          readOnly: true
+        can_add_member:
+          type: string
+          readOnly: true
+        can_add_site:
+          type: string
+          readOnly: true
+        user_permissions:
+          type: string
+          readOnly: true
+        user_role:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was created
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was last updated
+      required:
+      - can_add_member
+      - can_add_site
+      - created_at
+      - id
+      - member_count
+      - name
+      - owner_count
+      - site_count
+      - slug
+      - updated_at
+      - user_permissions
+      - user_role
+      - verified_at
+    OrganizationInvitation:
+      type: object
+      description: Organization invitation serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          description: Organization to invite user to
+        organization_name:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: Email address of invited user
+          maxLength: 254
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role to assign when invitation is accepted
+
+            * `member` - Member
+            * `owner` - Owner
+        invited_by:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        accepted_by:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        token:
+          type: string
+          readOnly: true
+          description: Invitation token
+        is_accepted:
+          type: boolean
+          readOnly: true
+          description: Invitation has been accepted
+        accepted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: When invitation was accepted
+        expires_at:
+          type: string
+          format: date-time
+          description: When invitation expires
+        message:
+          type: string
+          nullable: true
+          description: Personal message from inviter
+        is_expired:
+          type: string
+          readOnly: true
+        is_valid:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was created
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was last updated
+      required:
+      - accepted_at
+      - accepted_by
+      - created_at
+      - email
+      - expires_at
+      - id
+      - invited_by
+      - is_accepted
+      - is_expired
+      - is_valid
+      - organization
+      - organization_name
+      - token
+      - updated_at
+    OrganizationInvitationRequest:
+      type: object
+      description: Organization invitation serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization to invite user to
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: Email address of invited user
+          maxLength: 254
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role to assign when invitation is accepted
+
+            * `member` - Member
+            * `owner` - Owner
+        expires_at:
+          type: string
+          format: date-time
+          description: When invitation expires
+        message:
+          type: string
+          nullable: true
+          description: Personal message from inviter
+      required:
+      - email
+      - expires_at
+      - organization
+    OrganizationMember:
+      type: object
+      description: Organization member serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          description: Organization
+        organization_name:
+          type: string
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role in organization
+
+            * `member` - Member
+            * `owner` - Owner
+        title:
+          type: string
+          nullable: true
+          description: Job title
+          maxLength: 100
+        department:
+          type: string
+          nullable: true
+          description: Department
+          maxLength: 100
+        phone:
+          type: string
+          nullable: true
+          description: Phone number
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Member is active
+        is_owner:
+          type: string
+          readOnly: true
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When user joined
+        last_active:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: Last activity time
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was created
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was last updated
+      required:
+      - created_at
+      - id
+      - is_owner
+      - joined_at
+      - last_active
+      - organization
+      - organization_name
+      - updated_at
+      - user
+    OrganizationMemberRequest:
+      type: object
+      description: Organization member serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization
+        user_id:
+          type: integer
+          writeOnly: true
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role in organization
+
+            * `member` - Member
+            * `owner` - Owner
+        title:
+          type: string
+          nullable: true
+          description: Job title
+          maxLength: 100
+        department:
+          type: string
+          nullable: true
+          description: Department
+          maxLength: 100
+        phone:
+          type: string
+          nullable: true
+          description: Phone number
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Member is active
+      required:
+      - organization
+    OrganizationRequest:
+      type: object
+      description: Organization serializer with computed fields
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Organization name
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+          description: Organization description
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Organization contact email
+          maxLength: 254
+        website:
+          type: string
+          format: uri
+          nullable: true
+          description: Organization website
+          maxLength: 200
+        phone:
+          type: string
+          nullable: true
+          description: Organization phone
+          maxLength: 20
+        address:
+          type: string
+          nullable: true
+          description: Organization address
+        subscription_plan:
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionPlanEnum'
+          description: |-
+            Current subscription plan
+
+            * `free` - Free
+            * `basic` - Basic
+            * `professional` - Professional
+            * `enterprise` - Enterprise
+        max_sites:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum sites allowed
+        max_members:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum members allowed
+        is_active:
+          type: boolean
+          description: Organization is active
+        is_verified:
+          type: boolean
+          description: Organization is verified
+        settings:
+          description: Organization settings
+      required:
+      - name
+    OrganizationSite:
+      type: object
+      description: Organization site serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          description: Organization that owns this site
+        organization_name:
+          type: string
+          readOnly: true
+        site:
+          allOf:
+          - $ref: '#/components/schemas/Site'
+          readOnly: true
+        is_primary:
+          type: boolean
+          description: Primary site for organization
+        site_role:
+          allOf:
+          - $ref: '#/components/schemas/SiteRoleEnum'
+          description: |-
+            Site environment role
+
+            * `production` - Production
+            * `staging` - Staging
+            * `development` - Development
+            * `testing` - Testing
+        is_active:
+          type: boolean
+          description: Site is active
+        site_settings:
+          description: Site-specific settings
+        user_count:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was created
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When this record was last updated
+      required:
+      - created_at
+      - id
+      - organization
+      - organization_name
+      - site
+      - updated_at
+      - user_count
+    OrganizationSiteRequest:
+      type: object
+      description: Organization site serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization that owns this site
+        site_id:
+          type: string
+          writeOnly: true
+          minLength: 1
+        is_primary:
+          type: boolean
+          description: Primary site for organization
+        site_role:
+          allOf:
+          - $ref: '#/components/schemas/SiteRoleEnum'
+          description: |-
+            Site environment role
+
+            * `production` - Production
+            * `staging` - Staging
+            * `development` - Development
+            * `testing` - Testing
+        is_active:
+          type: boolean
+          description: Site is active
+        site_settings:
+          description: Site-specific settings
+      required:
+      - organization
+    PaginatedOrganizationInvitationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationInvitation'
+    PaginatedOrganizationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+    PaginatedOrganizationMemberList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationMember'
+    PaginatedOrganizationSiteList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationSite'
+    PatchedOrganizationInvitationRequest:
+      type: object
+      description: Organization invitation serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization to invite user to
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: Email address of invited user
+          maxLength: 254
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role to assign when invitation is accepted
+
+            * `member` - Member
+            * `owner` - Owner
+        expires_at:
+          type: string
+          format: date-time
+          description: When invitation expires
+        message:
+          type: string
+          nullable: true
+          description: Personal message from inviter
+    PatchedOrganizationMemberRequest:
+      type: object
+      description: Organization member serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization
+        user_id:
+          type: integer
+          writeOnly: true
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          description: |-
+            Role in organization
+
+            * `member` - Member
+            * `owner` - Owner
+        title:
+          type: string
+          nullable: true
+          description: Job title
+          maxLength: 100
+        department:
+          type: string
+          nullable: true
+          description: Department
+          maxLength: 100
+        phone:
+          type: string
+          nullable: true
+          description: Phone number
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Member is active
+    PatchedOrganizationRequest:
+      type: object
+      description: Organization serializer with computed fields
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Organization name
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+          description: Organization description
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Organization contact email
+          maxLength: 254
+        website:
+          type: string
+          format: uri
+          nullable: true
+          description: Organization website
+          maxLength: 200
+        phone:
+          type: string
+          nullable: true
+          description: Organization phone
+          maxLength: 20
+        address:
+          type: string
+          nullable: true
+          description: Organization address
+        subscription_plan:
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionPlanEnum'
+          description: |-
+            Current subscription plan
+
+            * `free` - Free
+            * `basic` - Basic
+            * `professional` - Professional
+            * `enterprise` - Enterprise
+        max_sites:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum sites allowed
+        max_members:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximum members allowed
+        is_active:
+          type: boolean
+          description: Organization is active
+        is_verified:
+          type: boolean
+          description: Organization is verified
+        settings:
+          description: Organization settings
+    PatchedOrganizationSiteRequest:
+      type: object
+      description: Organization site serializer
+      properties:
+        organization:
+          type: integer
+          description: Organization that owns this site
+        site_id:
+          type: string
+          writeOnly: true
+          minLength: 1
+        is_primary:
+          type: boolean
+          description: Primary site for organization
+        site_role:
+          allOf:
+          - $ref: '#/components/schemas/SiteRoleEnum'
+          description: |-
+            Site environment role
+
+            * `production` - Production
+            * `staging` - Staging
+            * `development` - Development
+            * `testing` - Testing
+        is_active:
+          type: boolean
+          description: Site is active
+        site_settings:
+          description: Site-specific settings
+    RoleEnum:
+      enum:
+      - member
+      - owner
+      type: string
+      description: |-
+        * `member` - Member
+        * `owner` - Owner
+    Site:
+      type: object
+      description: Site/Tenant serializer
+      properties:
+        schema_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          nullable: true
+        is_active:
+          type: boolean
+        created_on:
+          type: string
+          format: date
+          readOnly: true
+        user_permissions:
+          type: string
+          readOnly: true
+      required:
+      - created_on
+      - name
+      - schema_name
+      - user_permissions
+    SiteRequest:
+      type: object
+      description: Site/Tenant serializer
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          nullable: true
+        is_active:
+          type: boolean
+      required:
+      - name
+    SiteRoleEnum:
+      enum:
+      - production
+      - staging
+      - development
+      - testing
+      type: string
+      description: |-
+        * `production` - Production
+        * `staging` - Staging
+        * `development` - Development
+        * `testing` - Testing
+    SubscriptionPlanEnum:
+      enum:
+      - free
+      - basic
+      - professional
+      - enterprise
+      type: string
+      description: |-
+        * `free` - Free
+        * `basic` - Basic
+        * `professional` - Professional
+        * `enterprise` - Enterprise
+    TokenBlacklistRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    TokenVerifyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - token
+    User:
+      type: object
+      description: Basic user serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        full_name:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+      required:
+      - full_name
+      - id
+      - username
+    UserRequest:
+      type: object
+      description: Basic user serializer
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

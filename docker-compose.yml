@@ -1,0 +1,83 @@
+services:
+  # PostgreSQL Database (Optional)
+  db:
+    image: postgres:15
+    container_name: taruvi_db
+    environment:
+      POSTGRES_DB: taruvi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    profiles:
+      - db  # Only start when 'db' profile is specified
+    restart: unless-stopped
+
+  # Django Web Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: taruvi_web
+    ports:
+      - "8000:8000"  # Direct access to Django on port 8000
+    volumes:
+      - .:/app                          # Mount source code for live reloading
+      - /app/venv                       # Prevent venv from being mounted
+      - django_media:/app/media         # Media files volume
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+    # depends_on:
+    #   - db  # Uncomment if using containerized DB
+    stdin_open: true                    # Enable interactive debugging
+    tty: true                          # Enable TTY for better debugging
+    restart: unless-stopped
+
+  # Celery Worker
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: taruvi_celery_worker
+    command: celery -A taruvi_project worker --loglevel=info --concurrency=2
+    volumes:
+      - .:/app                          # Mount source code for live reloading
+      - /app/venv                       # Prevent venv from being mounted
+      - django_media:/app/media         # Media files volume
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+      - C_FORCE_ROOT=1                  # Allow Celery to run as root (dev only)
+    # depends_on:
+    #   - db  # Uncomment if using containerized DB
+    profiles:
+      - celery
+    restart: unless-stopped
+
+  # Celery Beat Scheduler
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: taruvi_celery_beat
+    command: celery -A taruvi_project beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app                          # Mount source code for live reloading
+      - /app/venv                       # Prevent venv from being mounted
+      - django_media:/app/media         # Media files volume
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+      - C_FORCE_ROOT=1                  # Allow Celery to run as root (dev only)
+    # depends_on:
+    #   - db  # Uncomment if using containerized DB
+    profiles:
+      - celery
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  django_media:

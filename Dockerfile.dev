@@ -1,0 +1,48 @@
+# Development Dockerfile for Taruvi
+FROM python:3.13-slim
+
+# Set environment variables for development
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DEBIAN_FRONTEND=noninteractive
+
+# Set work directory
+WORKDIR /app
+
+# Install system dependencies including development tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    git \
+    curl \
+    vim \
+    less \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+
+# Install Python dependencies including development tools
+RUN pip install -r requirements.txt && \
+    pip install \
+        ipython \
+        ipdb \
+        django-debug-toolbar \
+        django-extensions \
+        watchdog[watchmedo]
+
+# Don't copy source code - it will be mounted as volume for live reloading
+# The source code is mounted from host via docker-compose volumes
+
+# Create app directory and set permissions
+RUN mkdir -p /app && \
+    chmod 755 /app
+
+# Expose port
+EXPOSE 8000
+
+# Development server with auto-reload
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

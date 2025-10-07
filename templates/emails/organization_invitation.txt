@@ -1,0 +1,31 @@
+ORGANIZATION INVITATION - {{ organization.name|upper }}
+
+Hi there!
+
+{{ invited_by.get_full_name|default:invited_by.username }} has invited you to join "{{ organization.name }}" on Taruvi.
+
+ORGANIZATION DETAILS:
+- Name: {{ organization.name }}
+- Plan: {{ organization.get_subscription_plan_display }}
+- Your Role: {{ invitation.role|capfirst }}
+- Invited by: {{ invited_by.get_full_name|default:invited_by.username }}
+- Invitation expires: {{ invitation.expires_at|date:"F j, Y g:i A" }}
+
+{% if message %}
+PERSONAL MESSAGE:
+"{{ message }}"
+{% endif %}
+
+ACCEPT INVITATION:
+To accept this invitation, visit: {{ accept_url }}
+
+OR use this invitation token in your account dashboard:
+{{ invitation.token }}
+
+IMPORTANT:
+- This invitation will expire on {{ invitation.expires_at|date:"F j, Y" }}
+- If you didn't expect this invitation, you can safely ignore this email
+
+---
+Taruvi - Enterprise Django SaaS Platform
+This is an automated message, please do not reply to this email.

@@ -1,0 +1,65 @@
+name: Deploy Docs to Cloudflare Workers
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'docs/**'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd docs
+          npm ci
+
+      - name: Build Docusaurus site
+        run: |
+          cd docs
+          npm run build
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/pages-action@v1
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: taruvi-docs
+          directory: docs/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'
+
+      - name: Preview deployment (PR only)
+        uses: cloudflare/pages-action@v1
+        if: github.event_name == 'pull_request'
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: taruvi-docs
+          directory: docs/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'

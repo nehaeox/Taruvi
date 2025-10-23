@@ -619,6 +619,7 @@ SHARED_APPS = [
     
     # Your shared apps
     'core',
+    'core.functions',
 ]
 
 TENANT_APPS = [

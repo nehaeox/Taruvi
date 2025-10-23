@@ -356,47 +356,14 @@ def parse_log_size(size_str):
     else:
         return int(size_str)
 
-class JSONFormatter(logging.Formatter):
-    """Custom JSON formatter for structured logging"""
-    def format(self, record):
-        import json
-        import time
-        
-        # Get correlation ID from thread local if available
-        correlation_id = getattr(record, 'correlation_id', None)
-        
-        log_entry = {
-            'timestamp': time.time(),
-            'level': record.levelname,
-            'logger': record.name,
-            'message': record.getMessage(),
-            'module': record.module,
-            'function': record.funcName,
-            'line': record.lineno,
-            'process': record.process,
-            'thread': record.thread,
-            'service': 'taruvi-django',
-        }
-        
-        if correlation_id:
-            log_entry['correlation_id'] = correlation_id
-            
-        if record.exc_info:
-            log_entry['exception'] = self.formatException(record.exc_info)
-            
-        return json.dumps(log_entry)
-
 # Base formatters
 formatters_config = {
-    'json': {
-        '()': 'taruvi_project.settings.JSONFormatter',
-    },
     'verbose': {
-        'format': '{levelname} {asctime} [{correlation_id}] {name} {module}:{funcName}:{lineno} {message}',
+        'format': '{levelname} {asctime} {name} {module}:{funcName}:{lineno} {message}',
         'style': '{',
     },
     'simple': {
-        'format': '{levelname} {message}',
+        'format': '{levelname} {asctime} {message}',
         'style': '{',
     },
 }
@@ -413,7 +380,7 @@ handlers_config = {
     'console': {
         'level': 'DEBUG' if DEBUG else 'INFO',
         'class': 'logging.StreamHandler',
-        'formatter': 'simple' if DEBUG else ('json' if LOG_FORMAT == 'json' else 'verbose'),
+        'formatter': 'simple' if DEBUG else 'verbose',
     },
     'django_file': {
         'level': LOG_LEVEL,
@@ -421,7 +388,7 @@ handlers_config = {
         'filename': logs_dir / 'django.log',
         'maxBytes': max_log_size,
         'backupCount': LOG_BACKUP_COUNT,
-        'formatter': 'json' if LOG_FORMAT == 'json' else 'verbose',
+        'formatter': 'verbose',
     },
     'celery_file': {
         'level': LOG_LEVEL,
@@ -429,7 +396,7 @@ handlers_config = {
         'filename': logs_dir / 'celery.log',
         'maxBytes': max_log_size,
         'backupCount': LOG_BACKUP_COUNT,
-        'formatter': 'json' if LOG_FORMAT == 'json' else 'verbose',
+        'formatter': 'verbose',
     },
     'security_file': {
         'level': 'INFO',
@@ -437,7 +404,7 @@ handlers_config = {
         'filename': logs_dir / 'security.log',
         'maxBytes': max_log_size,
         'backupCount': LOG_BACKUP_COUNT,
-        'formatter': 'json' if LOG_FORMAT == 'json' else 'verbose',
+        'formatter': 'verbose',
     },
     'api_file': {
         'level': LOG_LEVEL,
@@ -445,7 +412,7 @@ handlers_config = {
         'filename': logs_dir / 'api.log',
         'maxBytes': max_log_size,
         'backupCount': LOG_BACKUP_COUNT,
-        'formatter': 'json' if LOG_FORMAT == 'json' else 'verbose',
+        'formatter': 'verbose',
     },
 }
 

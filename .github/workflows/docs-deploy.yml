@@ -36,7 +36,6 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/pages-action@v1
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -35,12 +35,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-change-me-in-production'
 DEBUG = env('DEBUG')
 
 # Allow nip.io wildcard domains for dynamic tenant routing
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[
-    '127.0.0.1.nip.io',
-    '*.127.0.0.1.nip.io',  # All tenant subdomains
-    'localhost',           # Fallback for direct access
-    '127.0.0.1',          # Direct IP access
-])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -78,6 +73,11 @@ INSTALLED_APPS = [
 
     # Local apps
     "core",
+    'cloud_site',
+    'cloud_site.app'
+    'cloud_site.functions'
+    'cloud_site.frontend'
+
 ]
 
 MIDDLEWARE = [
@@ -619,7 +619,7 @@ SHARED_APPS = [
     
     # Your shared apps
     'core',
-    'core.functions',
+    'core.storage',
 ]
 
 TENANT_APPS = [
@@ -630,11 +630,6 @@ TENANT_APPS = [
     'django.contrib.sessions',      # Project-specific sessions
     'django.contrib.messages',      # For admin messaging
     'django.contrib.staticfiles',   # For serving static files in tenant admin
-    
-    # Django Allauth (Tenant-specific for site-scoped authentication)
-    'allauth.account',              # Site-specific account management
-    'allauth.socialaccount',        # Site-specific social authentication
-    
     # Future tenant-specific apps (add as you build features)
     # 'projects',      # Project settings, configurations
     # 'tasks',         # Project tasks, workflows
@@ -643,6 +638,11 @@ TENANT_APPS = [
     # 'integrations',  # Project webhooks, API keys
     # 'billing',       # Project-specific billing data
     # 'notifications', # Project notifications
+    'cloud_site',
+    'cloud_site.app',
+    'cloud_site.functions',
+    'cloud_site.frontend'
+
 ]
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]

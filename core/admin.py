@@ -662,3 +662,5 @@ class OrganizationInvitationAdmin(BaseModelAdmin, SimpleHistoryAdmin):
             messages.SUCCESS
         )
     cancel_invitations.short_description = "Cancel pending invitations"
+
+

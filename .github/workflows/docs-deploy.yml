@@ -1,18 +1,10 @@
 name: Deploy Docs to Cloudflare Workers
 
 on:
-  push:
-    branches: [main, master]
-    paths:
-      - 'docs/**'
-  pull_request:
-    branches: [main, master]
-    paths:
-      - 'docs/**'
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 jobs:
   build-and-deploy:
@@ -44,22 +36,21 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/pages-action@v1
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: taruvi-docs
+          projectName: taruvi-testdocs
           directory: docs/build
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           wranglerVersion: '3'
 
-      - name: Preview deployment (PR only)
-        uses: cloudflare/pages-action@v1
-        if: github.event_name == 'pull_request'
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: taruvi-docs
-          directory: docs/build
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
+    #  - name: Preview deployment (PR only)
+    #    uses: cloudflare/pages-action@v1
+    #    if: github.event_name == 'pull_request'
+    #    with:
+    #      apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    #      accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    #      projectName: taruvi-docs
+    #      directory: docs/build
+    #      gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+    #      wranglerVersion: '3'
